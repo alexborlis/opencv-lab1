@@ -1,11 +1,20 @@
 import cv2
+import os
 from lab2.grayscale import GrayscaleConverter
 from lab2.brightness import BrightnessAdjuster
 from lab2.contrast import ContrastAdjuster
 from lab2.histogram_equalization import HistogramEqualizer
 
-image_path = "images/sample.jpg"
+# Отримуємо абсолютний шлях до каталогу проекту
+project_root = os.path.dirname(os.path.dirname(__file__))
+image_path = os.path.join(project_root, "images", "sample.jpg")
+
+if not os.path.exists(image_path):
+    raise FileNotFoundError(f"Зображення не знайдено: {image_path}")
+
 image = cv2.imread(image_path)
+if image is None:
+    raise ValueError("Не вдалося прочитати зображення. Перевір шлях або формат.")
 
 # 1. Градації сірого
 gray = GrayscaleConverter.to_grayscale(image)
